@@ -10,20 +10,17 @@ const MovieInfos = () => {
     const [selectedMovies, setSelectedMovies] = useState({})
     const { id } = useParams();
 
+
     const fetchMovies = async () => {
         const type = "discover"
         const { data: { results } } = await axios.get(`${AP_URL}/${type}/movie`, {
             params: {
                 api_key: process.env.REACT_APP_MOVIE_API_KEY,
+
             }
         })
         // console.log(results)
-        const results1 = await axios.get(`${AP_URL}/search/movie`, {
-            params: {
-                api_key: process.env.REACT_APP_MOVIE_API_KEY,
-                query: "avengers"
-            }
-        })
+
 
         const results2 = await axios.get(`${AP_URL}/movie/${id}`, {
             params: {
@@ -34,7 +31,7 @@ const MovieInfos = () => {
 
         const res = results.filter(elemnt => elemnt.id == id)[0]
         SetMovies(results)
-        console.log(results1.data)
+        //console.log(results1.data)
         // console.log(res)
         let genre = ""
         for (let i = 0; i < results2.data.genres.length; i++) {
@@ -44,6 +41,7 @@ const MovieInfos = () => {
         res.genres = genre
         console.log(genre)
         setSelectedMovies(res)
+
 
     }
 
@@ -79,12 +77,11 @@ const MovieInfos = () => {
                         <h4> <b>Synopsi:</b> {selectedMovies.overview}</h4>
                         <h4> <b>Date de parution:</b> {selectedMovies.release_date}</h4>
                         <h4> <b>Genre:</b> {selectedMovies.genres ? selectedMovies.genres : null}</h4>
+                        <h4> <b>Note /5:</b> {selectedMovies.vote_average / 2}</h4>
                     </div>
 
                 </div>
-
             </div>
-            <div></div>
 
         </div>
     );
